@@ -6,18 +6,19 @@ from ucimlrepo import fetch_ucirepo
 class LinearRegression:
     def __init__(self, X, y):
         self.X = X  # derivatives of weights
-        self.y = y  # derivatives of weights
+        self.y = y  # target class
         self.n = y.shape[0]  # number of datapoints
+        self.d = X.shape[1]
 
     def compute_loss(self, w, b):
         y_pred = self.X @ w + b
-        mse = np.sum((y_pred - self.y) ** 2) / self.n
+        mse = np.sum(np.square(y_pred - self.y)) / self.n
         return mse
 
     def compute_gradient(self, w, b):
         y_pred = self.X @ w + b
-        d_w = (2 / self.n) * self.X.T @ (y_pred - self.y)  # derivatives of weights
-        d_b = (2 / self.n) * np.sum(y_pred - self.y)  # derivatives of the bias
+        d_w = (2.0 / self.n) * self.X.T @ (y_pred - self.y)  # derivatives of weights
+        d_b = (2.0 / self.n) * np.sum(y_pred - self.y)  # derivatives of the bias
         return d_w, d_b
 
 
@@ -27,9 +28,8 @@ class GradientDescent:
         self.epochs = epochs
 
     def optimize(self, loss_func):
-        feature_num = loss_func.X.shape[1]
-        w = np.zeros(feature_num)
-        b = 0.0
+        w = np.zeros(loss_func.d)  # weights of linear regression model
+        b = 0.0  # bias of linear regression model
 
         for epoch in range(self.epochs):
             d_w, d_b = loss_func.compute_gradient(w, b)
