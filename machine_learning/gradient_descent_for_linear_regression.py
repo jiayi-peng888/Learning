@@ -5,9 +5,9 @@ from ucimlrepo import fetch_ucirepo
 
 class LinearRegression:
     def __init__(self, X, y):
-        self.X = X  #derivatives of weights
-        self.y = y  #derivatives of weights
-        self.n = y.shape[0]  #number of datapoints
+        self.X = X  # derivatives of weights
+        self.y = y  # derivatives of weights
+        self.n = y.shape[0]  # number of datapoints
 
     def compute_loss(self, w, b):
         y_pred = self.X @ w + b
@@ -16,8 +16,8 @@ class LinearRegression:
 
     def compute_gradient(self, w, b):
         y_pred = self.X @ w + b
-        d_w = (2 / self.n) * self.X.T @ (y_pred - self.y)  #derivatives of weights
-        d_b = (2 / self.n) * np.sum(y_pred - self.y)  #erivatives of the bias
+        d_w = (2 / self.n) * self.X.T @ (y_pred - self.y)  # derivatives of weights
+        d_b = (2 / self.n) * np.sum(y_pred - self.y)  # derivatives of the bias
         return d_w, d_b
 
 
@@ -37,8 +37,8 @@ class GradientDescent:
             b = b - self.lr * d_b
 
             if epoch % 200 == 0:
-                current_loss = loss_func.compute_loss(w, b)
-                print(f"Epoch {epoch:5d} | Loss = {current_loss:.4f}")
+                loss = loss_func.compute_loss(w, b)
+                print(f"Epoch {epoch:5d} | Loss = {loss:.4f}")
 
         return w, b
 
@@ -56,7 +56,7 @@ if __name__ == "__main__":
     X = (X_raw - np.mean(X_raw, axis=0)) / np.std(X_raw, axis=0)
 
     loss = LinearRegression(X, y_raw)
-    optimizer = GradientDescent(learning_rate=0.03, epochs=5000)
+    optimizer = GradientDescent(learning_rate=0.03, epochs=50000)
     w_opt, b_opt = optimizer.optimize(loss)
 
     print("=== Training Finished ===")
