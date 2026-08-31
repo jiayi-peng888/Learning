@@ -1,8 +1,9 @@
+"""https://introml.mit.edu/notes/regression.html"""
 import numpy as np
 from ucimlrepo import fetch_ucirepo
 
 
-class LinearRegressionLoss:
+class LinearRegression:
     def __init__(self, X, y):
         self.X = X
         self.y = y
@@ -20,8 +21,8 @@ class LinearRegressionLoss:
         return dw, db
 
 
-class GradientDescentOptimizer:
-    def __init__(self, learning_rate=0.001, epochs=20000):
+class GradientDescent:
+    def __init__(self, learning_rate=0.03, epochs=2000):
         self.lr = learning_rate
         self.epochs = epochs
 
@@ -49,16 +50,16 @@ if __name__ == "__main__":
     y_raw = real_estate_valuation.data.targets.values.ravel()
 
     print("Dataset name:", real_estate_valuation.metadata.name)
-    print("Number of samples:", X_raw.shape[0], "Number of features:", X_raw.shape[1])
+    print("Number of samples:", X_raw.shape[0])
+    print("Number of features:", X_raw.shape[1])
 
     X = (X_raw - np.mean(X_raw, axis=0)) / np.std(X_raw, axis=0)
-    y = y_raw
 
-    loss_obj = LinearRegressionLoss(X, y)
-    optimizer = GradientDescentOptimizer(learning_rate=0.001, epochs=50000)
+    loss_obj = LinearRegression(X, y_raw)
+    optimizer = GradientDescent(learning_rate=0.03, epochs=5000)
     w_opt, b_opt = optimizer.optimize(loss_obj)
 
-    print("\n=== Training Finished ===")
+    print("=== Training Finished ===")
     print("Optimal weight w:", w_opt)
     print("Optimal bias b:", b_opt)
     final_loss = loss_obj.compute_loss(w_opt, b_opt)
