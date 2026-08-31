@@ -12,7 +12,7 @@ class LinearRegression:
 
     def compute_loss(self, w, b):
         y_pred = self.X @ w + b
-        mse = np.mean(np.square(y_pred - self.y)) / self.n
+        mse = np.mean(np.square(y_pred - self.y))
         return mse
 
     def compute_gradient(self, w, b):
