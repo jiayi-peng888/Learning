@@ -5,14 +5,14 @@ from ucimlrepo import fetch_ucirepo
 
 class LinearRegression:
     def __init__(self, X, y):
-        self.X = X  # derivatives of weights
+        self.X = X  # design matrix
         self.y = y  # target class
         self.n = y.shape[0]  # number of datapoints
-        self.d = X.shape[1]
+        self.d = X.shape[1]  # number of feature dimensions
 
     def compute_loss(self, w, b):
         y_pred = self.X @ w + b
-        mse = np.sum(np.square(y_pred - self.y)) / self.n
+        mse = np.mean(np.square(y_pred - self.y)) / self.n
         return mse
 
     def compute_gradient(self, w, b):
