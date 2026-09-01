@@ -18,7 +18,7 @@ class LinearRegression:
     def compute_gradient(self, w, b):
         y_pred = self.X @ w + b
         d_w = (2.0 / self.n) * self.X.T @ (y_pred - self.y)  # derivatives of weights
-        d_b = (2.0 / self.n) * np.sum(y_pred - self.y)  # derivatives of the bias
+        d_b = (2.0 / self.n) * np.sum(y_pred - self.y)  # derivative of the bias
         return d_w, d_b
 
 
