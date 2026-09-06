@@ -1,5 +1,7 @@
-"""https://introml.mit.edu/notes/regression.html
-https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.linregress.html"""
+"""
+https://introml.mit.edu/notes/regression.html
+https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.linregress.html
+"""
 import numpy as np
 from ucimlrepo import fetch_ucirepo
 import matplotlib.pyplot as plt
