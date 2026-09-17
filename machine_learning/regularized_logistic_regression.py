@@ -4,6 +4,7 @@ from ucimlrepo import fetch_ucirepo
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
+from scipy.special import expit
 
 
 class LogisticRegression:
@@ -14,17 +15,14 @@ class LogisticRegression:
         self.d = X.shape[1]  # number of feature dimensions
         self.lam = lam  # L2 regularization coefficient
 
-    def sigmoid(self, z):
-        return 1.0 / (1.0 + np.exp(-z))
-
     def compute_loss(self, w, b):
-        y_pred_prob = self.sigmoid(self.X @ w + b)
+        y_pred_prob = expit(self.X @ w + b)
         cross_entropy = (-self.y * np.log(y_pred_prob + 1e-8) - (1 - self.y) * np.log(1 - y_pred_prob + 1e-8))
         loss = np.mean(cross_entropy) + self.lam * np.sum(np.square(w))
         return loss
 
     def compute_gradient(self, w, b):
-        y_pred_prob = self.sigmoid(self.X @ w + b)
+        y_pred_prob = expit(self.X @ w + b)
         error = y_pred_prob - self.y
         dw = (2.0 / self.n) * self.X.T @ error + 2 * self.lam * w
         db = (2.0 / self.n) * np.sum(error)
@@ -51,7 +49,7 @@ class GradientDescent:
 
 
 if __name__ == "__main__":
-    # Load UCI Bank Marketing dataset id=222
+    # load UCI Bank Marketing dataset id=222
     bank_marketing = fetch_ucirepo(id=222)
     X_raw = bank_marketing.data.features
     y_raw = bank_marketing.data.targets
